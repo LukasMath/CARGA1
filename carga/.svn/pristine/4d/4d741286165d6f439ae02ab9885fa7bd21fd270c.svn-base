@@ -1,0 +1,34 @@
+package carga.dao.controller;
+import java.nio.file.Paths;
+import java.util.StringTokenizer;
+
+import carga.dao.controller.ControllerDao;
+
+public class TesteGSDThread implements  Runnable {
+
+	@Override
+	public void run() {
+
+		ControllerDao
+				.getInstance()
+				.inserirDados(
+						Paths.get("\\\\sadfs01\\gtinf\\USAPI\\PROJETOS\\SGD-AVALIACAO DESEMPENHO\\Carga (sch_sad e sch_sgd)\\arquivosSaida\\01-SAD_SERVIDOR_SAIDA.txt"));
+
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		 StringTokenizer st = new StringTokenizer("2018-01-26; alisson", ";");
+		 
+		 while (st.hasMoreElements()) {
+			Object object = (Object) st.nextElement();
+			
+			System.out.println(object.getClass().getTypeName());
+			
+		}
+		 
+		
+		
+	}
+}

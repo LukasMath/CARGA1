@@ -1,0 +1,142 @@
+package carga.esculta;
+
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import carga.esculta.util.DataUtil;
+import carga.esculta.util.FormtarDataLogger;
+import carga.validacao.fachada.Fachada;
+import carga.validacao.fachada.IFachada;
+
+public class Esculta {
+
+	private static FileHandler arquivoLog;
+
+	public void esculta(String caminho) {
+
+		while (true) {
+
+			try {
+
+				IFachada fachadaValidacao = Fachada.getInstance();
+				carga.dao.facade.IFachada fachadaDao = carga.dao.facade.Fachada
+						.getInstance();
+
+				WatchService watcher = FileSystems.getDefault()
+						.newWatchService();
+						
+				Path dir = Paths.get(caminho);
+				
+				
+				dir.register(watcher, ENTRY_CREATE);
+				Logger logger = criacaoLog(dir, Thread.currentThread()
+						.getName());
+
+				logger.log(Level.INFO, "O monitoramento começou na pasta: "
+						+ dir.toAbsolutePath());
+				System.out.println("O monitoramento começou na pasta: "
+						+ dir.toAbsolutePath());
+
+				//esse take(); fará com q o programa pause esperando um arquivo ser jogado na pasta
+				WatchKey key;
+				try {
+					key = watcher.take();
+				} catch (InterruptedException ex) {
+					return;
+				}
+
+				fachadaDao.criarTabelasFuncao();
+
+				logger.log(Level.INFO,
+						"Evento de criação na pasta: " + dir.toAbsolutePath()
+								+ " foi executado.");
+
+				try {
+
+					logger.log(Level.INFO,"Vai ser execultado em 20 segundos a validação");
+					Thread.sleep(20000);
+				} catch (InterruptedException ex) {
+					logger.log(Level.SEVERE, "foi encontado um erro na espera da validação porem será execultado agora ");
+				}
+
+				logger.log(Level.INFO, "A valição será execultada agora");
+
+				fachadaValidacao.validarArquivos(dir);
+
+				logger.log(Level.INFO, "Validação executada com sucesso");
+				
+				
+
+				boolean valid = key.reset();
+
+				if (!valid) {
+					break;
+				}
+
+			} catch (Exception ex) {
+
+				Logger logger = Logger.getLogger(Thread.currentThread()
+						.getName());
+				logger.log(Level.SEVERE,
+						"Aconteceu algum problema: " + ex.getMessage(), ex);
+				logger.log(Level.INFO,
+						"O programa será restartado automaticamente ");
+				ex.printStackTrace();
+				System.err.println(ex);
+			} finally{
+				arquivoLog.close();	
+			}
+				
+
+		}
+
+	}
+
+	public static void main(String[] args) {
+		new Thread(new EscultaSGD(), "SGD").start();
+		new Thread(new EscultaRecadastramento(), "RECADASTRAMENTO").start();
+		
+		
+
+	}
+
+	private Logger criacaoLog(Path path, String nome) throws SecurityException,
+			IOException {
+
+		Logger parentLogger = Logger.getLogger(nome);
+		parentLogger.setLevel(Level.ALL);
+		Path logSaida = Paths.get(path.getParent() + "/../log");
+
+		if (!Files.exists(logSaida)) {
+			Files.createDirectories(logSaida);
+		}
+
+		String nomeLog = logSaida + "/" + DataUtil.formatarDataCorrenteJuntas()
+				+ "_log.txt";
+
+		if (!Files.exists(Paths.get(nomeLog)))
+			Files.createFile(Paths.get(nomeLog));
+
+		arquivoLog = new FileHandler(nomeLog);
+		FormtarDataLogger formatter = new FormtarDataLogger();
+		arquivoLog.setEncoding("UTF-8");
+		arquivoLog.setFormatter(formatter);
+
+		parentLogger.addHandler(arquivoLog);
+		
+
+		return parentLogger;
+
+	}
+
+}

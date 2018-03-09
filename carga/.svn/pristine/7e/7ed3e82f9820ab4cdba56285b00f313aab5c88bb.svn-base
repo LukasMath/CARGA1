@@ -1,0 +1,62 @@
+package carga.dao.util;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import carga.dao.exceptions.ExcecaoPropertiesNaoEncontrado;
+
+public class PropertiesUtil {
+
+	private static PropertiesUtil instance;
+
+	private static final String NM_PROPERTIES = "dao.properties";
+
+	private PropertiesUtil() {
+	}
+
+	public static PropertiesUtil getInstance() {
+
+		if (instance == null) {
+			instance = new PropertiesUtil();
+		}
+
+		return instance;
+	}
+
+	public Properties getPropertiesDao() throws ExcecaoPropertiesNaoEncontrado {
+
+		Logger log = Logger.getLogger(Thread.currentThread().getName());
+
+		log.log(Level.CONFIG,
+				"Lendo propertie de configuração do banco de dados");
+
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+
+			input = PropertiesUtil.class.getClassLoader().getResourceAsStream(NM_PROPERTIES);
+			InputStreamReader is =  new InputStreamReader(input, "UTF8");
+			prop.load(is);
+			log.log(Level.CONFIG, "Propertie configurado com sucesso");
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return prop;
+	}
+
+}

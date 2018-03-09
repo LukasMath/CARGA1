@@ -1,0 +1,47 @@
+package carga.dao.controller;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import carga.dao.exceptions.ExcecaoPropertiesNaoEncontrado;
+import carga.dao.factory.ConexaoFactory;
+import carga.dao.util.Funcao;
+import carga.dao.util.Sistema;
+
+public class FuncaoController implements IFuncaoController {
+
+	private static FuncaoController instance;
+
+	private FuncaoController() {
+
+	}
+
+	public static FuncaoController getInstance() {
+
+		if (instance == null)
+			instance = new FuncaoController();
+
+		return instance;
+	}
+
+	public void criarTabelasFuncao() throws SQLException,
+			ClassNotFoundException, ExcecaoPropertiesNaoEncontrado {
+		
+		Connection conexao = ConexaoFactory.abrirConexao();
+	
+		CallableStatement cs = conexao
+				.prepareCall(Thread.currentThread().getName()
+						.equals(Sistema.SGD.getNome()) ? Funcao.CRIAR_TABELA_SGD
+						.getNomeFuncao() : Funcao.CRIAR_TABELA_RECADASTRAMENTO
+						.getNomeFuncao());
+
+		cs.executeUpdate();
+
+		cs.close();
+
+	}
+
+		
+		
+}

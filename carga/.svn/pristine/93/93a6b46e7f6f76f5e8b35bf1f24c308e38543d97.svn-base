@@ -1,0 +1,8 @@
+carga\esculta\EscultaSGD.class
+carga\esculta\factory\EscultaFactory.class
+carga\esculta\util\PropertiesUtilEsculta.class
+carga\esculta\util\SistemaEsculta.class
+carga\esculta\EscultaRecadastramento.class
+carga\esculta\util\DataUtil.class
+carga\esculta\util\FormtarDataLogger.class
+carga\esculta\Esculta.class

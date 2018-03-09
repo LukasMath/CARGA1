@@ -1,0 +1,93 @@
+package carga.dao.controller;
+
+import java.io.FileReader;
+import java.nio.file.Path;
+import java.sql.Connection;
+
+import org.postgresql.copy.CopyManager;
+import org.postgresql.core.BaseConnection;
+
+import carga.dao.factory.ConexaoFactory;
+import carga.dao.util.ArquivoUtil;
+import carga.dao.util.Sistema;
+
+public class ControllerDao implements IControllerDao {
+	
+	IFuncaoController iFuncaoController;
+
+	private ControllerDao() {
+		iFuncaoController = FuncaoController.getInstance();
+	}
+
+	private static ControllerDao instance;
+	
+
+	public static ControllerDao getInstance() {
+
+		if (instance == null)
+			instance = new ControllerDao();
+
+		return instance;
+
+	}
+
+	@Override
+	public void inserirDados(Path caminhoArquivoSaida) {
+		
+		Connection conexao = null;
+
+		try {
+		
+
+			FileReader fileReader = new FileReader(caminhoArquivoSaida.toFile());
+			conexao = ConexaoFactory.abrirConexao();
+
+			String nomeTabelaAux = criarNomeTabelaAux(caminhoArquivoSaida
+					.getFileName().toString());
+			
+			CopyManager cm = new CopyManager((BaseConnection) conexao);
+			cm.copyIn("COPY " + nomeTabelaAux + " FROM STDIN WITH DELIMITER ';'  NULL AS '#' ", fileReader);
+
+			conexao.close();
+			fileReader.close();
+			
+
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+
+		}
+
+	}
+	
+
+
+	private String criarNomeTabelaAux(String nomeArquivoSaida) {
+		String nomeFormatado = "";
+
+		nomeFormatado = ArquivoUtil.removerDigitos(nomeArquivoSaida);
+		nomeFormatado = ArquivoUtil.removerNomeSaida(nomeFormatado);
+		nomeFormatado = ArquivoUtil.removerExtensaoArquivo(nomeFormatado);
+		nomeFormatado = ArquivoUtil.removerTracoNomeArquivo(nomeFormatado);
+
+		if (Thread.currentThread().getName().equals(Sistema.SGD.getNome()))
+			nomeFormatado = "sch_sad.aux_" + nomeFormatado.toLowerCase();
+		else if (Thread.currentThread().getName().equals(Sistema.REDASTRAMENTO.getNome())){
+			nomeFormatado = removerNomeSRS(nomeFormatado);
+			nomeFormatado = "sch_recadastramento_anual.aux_" + nomeFormatado.toLowerCase();
+			
+		}
+			
+			
+	
+		
+		return nomeFormatado;
+	}
+	
+	private String removerNomeSRS (String nome){
+		
+		return nome.replaceAll("SRS_", "");
+	}
+
+	
+}

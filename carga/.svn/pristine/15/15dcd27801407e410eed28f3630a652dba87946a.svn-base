@@ -1,0 +1,30 @@
+package carga.dao.factory;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import carga.dao.exceptions.ExcecaoPropertiesNaoEncontrado;
+import carga.dao.util.PropertiesUtil;
+
+public class ConexaoFactory {
+	
+	public static Connection abrirConexao () throws ExcecaoPropertiesNaoEncontrado, ClassNotFoundException, SQLException{
+		
+		Properties properties = PropertiesUtil.getInstance()
+				.getPropertiesDao();
+		String driveClass = properties.getProperty("jdbc.driverClass");
+		String connectionURL = properties.getProperty("jdbc.connectionURL");
+		String usuario = properties.getProperty("jdbc.user");
+		String senha = properties.getProperty("jdbc.password");
+		
+		Class.forName(driveClass);
+
+		return DriverManager.getConnection(connectionURL, usuario, senha);
+		
+		
+	}
+	
+	
+}

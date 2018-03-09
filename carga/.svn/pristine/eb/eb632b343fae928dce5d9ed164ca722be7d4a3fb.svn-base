@@ -1,0 +1,13 @@
+package carga.dao.facade;
+
+import java.nio.file.Path;
+import java.sql.SQLException;
+
+import carga.dao.exceptions.ExcecaoPropertiesNaoEncontrado;
+
+public interface IFachada {
+	
+	void  inserirDados (Path caminhoArquivoSaida);
+	void criarTabelasFuncao() throws SQLException, ClassNotFoundException, ExcecaoPropertiesNaoEncontrado;
+	
+}

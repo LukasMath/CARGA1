@@ -1,0 +1,5 @@
+jdbc.driverClass=${db.driverClass}
+jdbc.connectionURL=${db.connectionURL}
+jdbc.user=${db.username}
+jdbc.password=${db.password}
+jdbc.allowEncodingChanges = true

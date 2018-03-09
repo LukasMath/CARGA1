@@ -1,0 +1,13 @@
+carga\dao\util\PropertiesUtil.class
+carga\dao\factory\ConexaoFactory.class
+carga\dao\util\Funcao.class
+carga\dao\controller\ControllerDao.class
+carga\dao\controller\IFuncaoController.class
+carga\dao\exceptions\ExcecaoPropertiesNaoEncontrado.class
+carga\dao\util\Sistema.class
+carga\dao\controller\IControllerDao.class
+carga\dao\facade\Fachada.class
+carga\dao\util\ArquivoUtil.class
+carga\dao\controller\FuncaoController.class
+carga\dao\controller\TesteGSDThread.class
+carga\dao\facade\IFachada.class

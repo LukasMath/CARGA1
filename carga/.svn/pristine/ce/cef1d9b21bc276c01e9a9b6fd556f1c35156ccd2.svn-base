@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>carga</groupId>
+		<artifactId>carga</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>carga.esculta</artifactId>
+
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>carga</groupId>
+			<artifactId>carga.validacao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>carga</groupId>
+			<artifactId>carga.dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<esculta.diretorio.redacadastramento>//sadfs01/GTINF/USAPI/PROJETOS/RECADASTRAMENTO DE SERVIDOR/Recadastramento Servidor/CARGA/arquivosEntrada/dev</esculta.diretorio.redacadastramento>
+				<esculta.diretorio.sgd>//sadfs01/gtinf/USAPI/PROJETOS/SGD-AVALIACAO DESEMPENHO/Carga (sch_sad e sch_sgd)/arquivosEntrada/dev</esculta.diretorio.sgd>
+			</properties>
+			
+		</profile>
+		<profile>
+			<id>hom</id>
+			<properties>
+				<esculta.diretorio.redacadastramento>//sadfs01/GTINF/USAPI/PROJETOS/RECADASTRAMENTO DE SERVIDOR/Recadastramento Servidor/CARGA/arquivosEntrada/hom</esculta.diretorio.redacadastramento>
+				<esculta.diretorio.sgd>//sadfs01/gtinf/USAPI/PROJETOS/SGD-AVALIACAO DESEMPENHO/Carga (sch_sad e sch_sgd)/arquivosEntrada/hom</esculta.diretorio.sgd>
+			</properties>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<esculta.diretorio.redacadastramento>//sadfs01/GTINF/USAPI/PROJETOS/RECADASTRAMENTO DE SERVIDOR/Recadastramento Servidor/CARGA/arquivosEntrada/pro</esculta.diretorio.redacadastramento>
+				<esculta.diretorio.sgd>//sadfs01/gtinf/USAPI/PROJETOS/SGD-AVALIACAO DESEMPENHO/Carga (sch_sad e sch_sgd)/arquivosEntrada/pro</esculta.diretorio.sgd>
+			</properties>
+		</profile>
+	</profiles>
+
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
+</project>

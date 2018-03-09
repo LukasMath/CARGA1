@@ -1,0 +1,10 @@
+package carga.dao.controller;
+
+import java.nio.file.Path;
+
+public interface IControllerDao {
+	
+	void  inserirDados (Path caminhoArquivoSaida, Path entrada) throws Exception;
+	
+	
+}

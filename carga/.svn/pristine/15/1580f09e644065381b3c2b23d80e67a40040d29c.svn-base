@@ -1,0 +1,8 @@
+email.destinatario=leandro.oliveira.ads@gmail.com;leandro.oliveira.ads@outlook.com
+email.assunto=SAD Carga - Carga Realizada! 
+mail.smtp.from=suporte.sad.pe.gov.br
+mail.smtp.password=sadsuporteusinf
+mail.smtp.starttls.enable=true
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+mail.smtp.auth=true

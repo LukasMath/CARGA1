@@ -1,0 +1,5 @@
+carga\validacao\controlador\IValidacaoControlador.class
+carga\validacao\util\StringUtil.class
+carga\validacao\fachada\Fachada.class
+carga\validacao\controlador\ValidacaoControlador.class
+carga\validacao\fachada\IFachada.class

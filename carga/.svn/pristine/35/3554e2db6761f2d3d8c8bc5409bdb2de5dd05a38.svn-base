@@ -1,0 +1,5 @@
+jdbc.driverClass=org.postgresql.Driver
+jdbc.connectionURL=jdbc:postgresql://200.238.112.141/sadsiswebpro
+jdbc.allowEncodingChanges = true
+user=sadsisweb
+password=!S@dSisWeb#

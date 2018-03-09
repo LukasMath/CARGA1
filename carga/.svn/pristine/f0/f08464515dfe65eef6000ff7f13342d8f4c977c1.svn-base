@@ -1,0 +1,10 @@
+package carga.dao.controller;
+
+import java.sql.SQLException;
+
+import carga.dao.exceptions.ExcecaoPropertiesNaoEncontrado;
+
+public interface IFuncaoController {
+	
+	public void criarTabelasFuncao() throws SQLException, ClassNotFoundException, ExcecaoPropertiesNaoEncontrado;
+}
